@@ -1,15 +1,13 @@
 "use client";
 
-import { FormRow } from "@/types/form";
+import { FormRow, ROLE_COLORS } from "@/types/form";
 
 interface DataTableProps {
   rows: FormRow[];
 }
 
 export function DataTable({ rows }: DataTableProps) {
-  const hasData = rows.some(
-    (r) => r.name || r.email || r.role || r.department
-  );
+  const hasData = rows.some((r) => r.name || r.email || r.role || r.department);
 
   return (
     <div className="rounded-xl border border-slate-200 overflow-hidden shadow-sm">
@@ -22,7 +20,11 @@ export function DataTable({ rows }: DataTableProps) {
         </h3>
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full text-sm" role="table" aria-label="Form data preview">
+        <table
+          className="w-full text-sm"
+          role="table"
+          aria-label="Form data preview"
+        >
           <thead>
             <tr className="bg-slate-50/80">
               {["#", "Name", "Email", "Role", "Department"].map((h) => (
@@ -49,11 +51,19 @@ export function DataTable({ rows }: DataTableProps) {
                   {row.name || <span className="text-slate-300 italic">—</span>}
                 </td>
                 <td className="px-4 py-3 text-slate-600">
-                  {row.email || <span className="text-slate-300 italic">—</span>}
+                  {row.email || (
+                    <span className="text-slate-300 italic">—</span>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   {row.role ? (
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
+                    <span
+                      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
+                        ROLE_COLORS[row.role as keyof typeof ROLE_COLORS].bg
+                      } ${ROLE_COLORS[row.role as keyof typeof ROLE_COLORS].text} ${
+                        ROLE_COLORS[row.role as keyof typeof ROLE_COLORS].border
+                      }`}
+                    >
                       {row.role}
                     </span>
                   ) : (
@@ -61,7 +71,9 @@ export function DataTable({ rows }: DataTableProps) {
                   )}
                 </td>
                 <td className="px-4 py-3 text-slate-600">
-                  {row.department || <span className="text-slate-300 italic">—</span>}
+                  {row.department || (
+                    <span className="text-slate-300 italic">—</span>
+                  )}
                 </td>
               </tr>
             ))}
